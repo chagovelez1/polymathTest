@@ -22,11 +22,25 @@ def flatToTree(dataSet):
     return forest
 
 
-def printTree(tree):
+def printTreeToHtml(tree):
     if not 'children' in tree:
-        return '<div>{}</div>'.format(tree['data']['id'])
+        return '<li>{}</li>'.format(tree['data']['id'])
     else:
-        text = '<div><title>{}</title>'.format(tree['data']['id'])
+        text = '<li><bold>children of categoryId {}:</bold></li><ul>'.format(tree['data']['id'])
         for child in tree['children']:
-            text += printTree(child)
-        return text + '</div>'
+            text += printTreeToHtml(child)
+        return text + '</ul>'
+
+
+def categoryElementToBoolean(element):
+    if element is not None:
+        return True
+    else:
+        return False
+
+
+def printToFile(fileName, input):
+    path = 'resources/{}'.format(fileName)
+    f = open(path, "w+")
+    f.write(input)
+    print('results will be found in {}'.format(path))
